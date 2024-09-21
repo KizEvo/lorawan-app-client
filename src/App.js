@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import './App.css'
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import Navbar from './components/Navbar'
+import Charts from './pages/Charts'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <section class='d-flex flex-column'>
+      <Navbar />
+      <div
+        class='container-lg mx-0 px-0 align-self-center'
+        style={{ height: '90vh' }}
+      >
+        <Charts />
+      </div>
+    </section>
+  )
 }
 
-export default App;
+export default App
