@@ -1,4 +1,6 @@
-import React from 'react'
+import { useFetchSensorData } from '../db/Database'
+
+import React, { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -21,19 +23,16 @@ ChartJS.register(
   Tooltip
 )
 
-const LineChart = (props) => {
-  const currTime = Date.now()
+// Change input param to change timestamp of the sensor
+const getFormattedTimes = (minInterval, size, currTime) => {
   const times = []
-
-  for (let i = 3 - 1; i >= 1; i--) {
-    times.push(currTime - 1000 * 60 * 5 * i)
+  for (let i = size - 1; i >= 1; i--) {
+    times.push(currTime - 1000 * 60 * minInterval * i)
   }
   times.push(currTime)
-
-  const formattedTimes = []
-
-  for (let i = 0; i < 3; i++) {
-    formattedTimes.push(
+  const tmpFormattedTimes = []
+  for (let i = 0; i < size; i++) {
+    tmpFormattedTimes.push(
       new Intl.DateTimeFormat('en-US', {
         hour: '2-digit',
         minute: '2-digit',
@@ -41,26 +40,50 @@ const LineChart = (props) => {
       }).format(times[i])
     )
   }
+  return tmpFormattedTimes
+}
+
+const LineChart = (props) => {
+  // const [formattedTimes, setFormattedTimes] = useState(getFormattedTimes(1, 3))
+  const [sensorDataCache, fetchSensorData] = useFetchSensorData()
+  console.log(sensorDataCache)
+  let currTime = Date.now()
+  if (sensorDataCache.length != 0) {
+    currTime = sensorDataCache[sensorDataCache.length - 1].time
+  }
+  let formattedTimes = getFormattedTimes(1, 3, currTime)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchSensorData()
+    }, 1000 * 60)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const sensorTempValue = []
+  const sensorHumidityValue = []
+  sensorDataCache.forEach((inst) => {
+    sensorTempValue.push(inst.temperature)
+    sensorHumidityValue.push(inst.humidity)
+  })
 
   const data = {
     labels: formattedTimes,
     datasets: [
       {
         label: 'Temperature',
-        data: [8, 2, 10],
+        data: sensorTempValue,
         backgroundColor: 'aqua',
         borderColor: 'black',
         pointBorderColor: 'aqua',
-        fill: true,
         tension: 0.4,
       },
       {
         label: 'Humidity',
-        data: [2, 10, 5],
+        data: sensorHumidityValue,
         backgroundColor: 'aqua',
         borderColor: 'black',
         pointBorderColor: 'aqua',
-        fill: true,
         tension: 0.4,
       },
     ],
@@ -75,7 +98,7 @@ const LineChart = (props) => {
       },
     },
   }
-  return <Line class='w-100 h-100' data={data} options={options}></Line>
+  return <Line className='w-100 h-100' data={data} options={options}></Line>
 }
 
 export default LineChart

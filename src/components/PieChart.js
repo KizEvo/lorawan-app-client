@@ -47,7 +47,9 @@ const PieChart = (props) => {
     },
   }
 
-  return <Doughnut class='w-100 h-100' data={data} options={options}></Doughnut>
+  return (
+    <Doughnut className='w-100 h-100' data={data} options={options}></Doughnut>
+  )
 }
 
 export default PieChart
