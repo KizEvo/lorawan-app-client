@@ -73,7 +73,7 @@ const LineChart = (props) => {
       {
         label: 'Temperature',
         data: sensorTempValue,
-        backgroundColor: 'aqua',
+        backgroundColor: 'orange',
         borderColor: 'black',
         pointBorderColor: 'aqua',
         tension: 0.4,

@@ -23,18 +23,18 @@ ChartJS.register(
 
 const BarChart = (props) => {
   const data = {
-    labels: ['Sensor_1', 'Sensor_2', 'Sensor_3', 'Sensor_4', 'Sensor_5'],
+    labels: ['Sensor 1', 'Sensor 2', 'Sensor 3', 'Sensor 4', 'Sensor 5'],
     datasets: [
       {
         label: 'Package count',
         backgroundColor: [
-          '#3e95cd',
-          '#8e5ea2',
-          '#3cba9f',
-          '#e8c3b9',
-          '#c45850',
+          '#966a30',
+          '#b07c38',
+          '#cc8f41',
+          '#eba54b',
+          '#ffb351',
         ],
-        data: [2478, 5267, 734, 784, 433],
+        data: [2478, 5267, 3562, 784, 433],
       },
     ],
   }
