@@ -1,7 +1,9 @@
 import React from 'react'
 
 import logo from '../logo.svg'
+import { Link } from 'react-router-dom'
 import '../App.css'
+//import '../styling/Navbar.css'
 
 const Navbar = () => {
   return (
@@ -17,21 +19,9 @@ const Navbar = () => {
         </a>
         <div>
           <ul className='navbar-nav d-flex flex-row'>
-            <li className='nav-item px-1'>
-              <a className='nav-link active' aria-current='page' href='#'>
-                Account
-              </a>
-            </li>
-            <li className='nav-item px-1'>
-              <a className='nav-link active' aria-current='page' href='#'>
-                Chart
-              </a>
-            </li>
-            <li className='nav-item px-1'>
-              <a className='nav-link active' aria-current='page' href='#'>
-                Analytic
-              </a>
-            </li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/status">Status</Link></li>
+            <li><Link to="/chart">Chart</Link></li>
           </ul>
         </div>
       </div>

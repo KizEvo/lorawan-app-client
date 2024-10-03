@@ -5,9 +5,15 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import React, { useState, useEffect } from 'react'
 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+
 import Navbar from './components/Navbar'
+import Home from './pages/Home'
 import Charts from './pages/Charts'
+import Status from './pages/Status'
+
 import { initDatabase } from './db/Database'
+import { Tab } from 'react-bootstrap'
 
 function App() {
   const [isDatabaseInitialized, setIsDatabaseInitialized] = useState(false)
@@ -25,15 +31,16 @@ function App() {
     return <div>Loading...</div>
   }
   return (
-    <section className='d-flex flex-column'>
-      <Navbar />
-      <div
-        className='container-lg mx-0 px-0 align-self-center'
-        style={{ height: '90vh' }}
-      >
-        <Charts />
-      </div>
-    </section>
+    <Router>
+      <div>
+        <Navbar />
+          <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="/status" element={<Status/>} />
+            <Route path="/chart" element={<Charts/>} />
+          </Routes>
+      </div>  
+    </Router>
   )
 }
 

@@ -28,6 +28,22 @@
   color: #61dafb;
 }
 
+.navbar-nav{
+  gap: 5px;
+}
+
+.navbar-nav a {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  transition: background-color 0.3s
+}
+
+.navbar-nav a:hover {
+  color:black;
+}
+
 h2 {
   text-align: center;
 }
