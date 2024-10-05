@@ -1,0 +1,28 @@
+.text {
+    color: black;
+    font-size: 2em;
+    text-align: center;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+}
+
+.footnote {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Adding gap between footnote items */
+}
+
+.footnote-item {
+    display: flex;
+    align-items: center;
+}
+
+.footnote-color {
+    width: 50px;
+    height: 25px;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid black;
+    margin-right: 10px;
+}

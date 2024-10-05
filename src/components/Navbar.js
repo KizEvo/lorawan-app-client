@@ -21,7 +21,7 @@ const Navbar = () => {
           <ul className='navbar-nav d-flex flex-row'>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/status">Status</Link></li>
-            <li><Link to="/chart">Chart</Link></li>
+            <li><Link to="/aboutus">About Us</Link></li>
           </ul>
         </div>
       </div>

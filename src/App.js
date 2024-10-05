@@ -1,4 +1,3 @@
-import logo from './logo.svg'
 import './App.css'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -9,8 +8,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
-import Charts from './pages/Charts'
 import Status from './pages/Status'
+import AboutUs from './pages/AboutUs'
 
 import { initDatabase } from './db/Database'
 import { Tab } from 'react-bootstrap'
@@ -37,7 +36,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/status" element={<Status/>} />
-            <Route path="/chart" element={<Charts/>} />
+            <Route path="/aboutus" element={<AboutUs/>} />
           </Routes>
       </div>  
     </Router>
