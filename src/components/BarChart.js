@@ -49,7 +49,7 @@ const BarChart = (props) => {
       },
     },
   }
-  return <Bar class='w-100 h-100' data={data} options={options}></Bar>
+  return <Bar className='w-100 h-100' data={data} options={options}></Bar>
 }
 
 export default BarChart
