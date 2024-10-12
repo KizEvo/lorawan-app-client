@@ -1,11 +1,11 @@
 import React from "react"
-import videoBg from '../assets/videoBg.mp4'
+import videoBg2 from '../assets/videoBg2.mp4'
 import '../styling/Home.css'
 
 const Home = () => {
     return(
         <section id="Home">
-            <video src={videoBg} autoPlay loop muted/>
+            <video className="home-bg" src={videoBg2} autoPlay loop muted/>
         </section>
     );
 };
