@@ -11,3 +11,6 @@ To get started, follow the step below:
 - Run `npm install` inside the project folder to install dependencies.
 - Run `npm start` when dependencies installation finished.
 - The default port is _3000_ on localhost.
+
+## User Interface
+![image](https://github.com/user-attachments/assets/3b04c7db-87cd-43f6-987a-d7b257a9bcaa)
