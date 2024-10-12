@@ -4,7 +4,7 @@ import Tabs from '../components/Tabs';
 const Status = () => {
     return (
         <section id="status">
-            <h2>Select Basement Floors</h2>
+            <h1>Select Basement Floors</h1>
             <Tabs />
         </section>
     );

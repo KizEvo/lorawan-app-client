@@ -1,24 +1,47 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import InfoGraphic from '../components/InfoGraphic'
-import { myMap1, myMap2 } from '../db/SlotsStatus'
+import { useFetchSensorData } from '../db/Database'
+import { Map1, Map2 } from '../db/SlotsStatus'
+
 import '../styling/Tabs.css'
 
 const Tabs = () => {
-    const [activeTab, setActiveTab] = useState('tab1'); // Default to 'tab1'
+    // const [sensorDataCache, fetchSensorData] = useFetchSensorData()
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //       fetchSensorData()
+    //     }, 1000 * 60)
+    
+    //     return () => clearInterval(interval)
+    //   }, [])
 
+    const [myMap1, setMyMap1] = useState(Map1)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setMyMap1((prevMap) => {
+                const newMap = new Map(prevMap);
+                newMap.set('A1', newMap.get('A1') === 'empty' ? 'full' : 'empty'); //toggle state of A1
+                return newMap;
+            });
+        }, 1000);   //toggle every 1s
+        
+        return () => clearInterval(interval);
+    }, []);
+
+    const [activeTab, setActiveTab] = useState('tab1'); // Default to 'tab1'
     const renderContent = () => {
         if (activeTab === 'tab1') {
             return (
                 <div>
                     <h2>Parking Spaces Status - Floor B1</h2>
-                    <InfoGraphic mapData={myMap1}/>
+                    <InfoGraphic mapData={myMap1}/> {/*Dynamic Map*/}
                 </div>
             );
         } else if (activeTab === 'tab2') {
             return (
                 <div>
                     <h2>Parking Spaces Status - Floor B2</h2>
-                    <InfoGraphic mapData={myMap2}/>
+                    <InfoGraphic mapData={Map2}/> {/*Static Map*/}
                 </div>
             );
         }
