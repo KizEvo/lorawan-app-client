@@ -55,7 +55,7 @@ export const initDatabase = async () => {
 }
 
 export const useFetchSensorData = () => {
-  const [sensorDataCache, setSensorDataCache] = useState([])
+  const [sensorDataCache, setSensorDataCache] = useState()
 
   const fetchSensorData = async () => {
     if (initialDoc === null) {
@@ -66,20 +66,11 @@ export const useFetchSensorData = () => {
       // Data is not ready
       return false
     }
-    const firstDocRef = doc(firebaseDb, coll, firstId)
-    initialDoc = await getDoc(firstDocRef)
-    const data = initialDoc.data()
-    const tmpCache = []
     try {
-      console.log(data)
-      const inst = data.count - 3 < 0 ? 0 : data.count - 3
-      console.log(inst)
-      const q = query(collection(firebaseDb, coll), where('inst', '>=', inst))
-      const querySnapshot = await getDocs(q)
-      querySnapshot.forEach((doc) => {
-        tmpCache.push(doc.data())
-      })
-      setSensorDataCache(tmpCache)
+      const firstDocRef = doc(firebaseDb, coll, firstId)
+      initialDoc = await getDoc(firstDocRef)
+      const data = initialDoc.data()
+      setSensorDataCache(data)
     } catch (error) {
       return false
     }
