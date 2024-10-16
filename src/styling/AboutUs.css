@@ -1,13 +1,66 @@
-.team-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 20px;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+} 
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
 }
+
+.video-model {
+    display: block;
+    margin:  20px auto;
+}
+
+@media only screen and (max-width: 768px) {
+    .dynamic-margin {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .dynamic-margin {
+        margin-left: 270px;
+        margin-right: 270px;
+    }
+}  
 
 .team-member {
     text-align: center;
     margin: 20px;
+    opacity: 0; /* Start hidden */
+    animation: fadeIn 1s forwards;
+}
+
+.team-member:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.team-member:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.team-member:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.team-member:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+.team-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.team-members {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Add spacing between members */
 }
 
 .avatar {
