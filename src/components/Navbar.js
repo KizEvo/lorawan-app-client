@@ -10,7 +10,7 @@ const Navbar = () => {
       style={{ height: '10vh' }}
     >
       <div className='container-fluid d-flex justify-content-start'>
-        <a className='navbar-brand' href='#'>
+        <a className='navbar-brand' href='/'>
           <div>
             <img src={logo} className='App-logo' alt='logo' />
           </div>
@@ -18,17 +18,32 @@ const Navbar = () => {
         <div>
           <ul className='navbar-nav d-flex flex-row'>
             <li className='nav-item px-1'>
-              <a className='nav-link active' aria-current='page' href='#'>
-                Account
+              <a
+                className='nav-link active'
+                style={{ fontSize: '2vmin' }}
+                aria-current='page'
+                href='/'
+              >
+                Home
               </a>
             </li>
             <li className='nav-item px-1'>
-              <a className='nav-link active' aria-current='page' href='#'>
-                Chart
+              <a
+                className='nav-link active'
+                style={{ fontSize: '2vmin' }}
+                aria-current='page'
+                href='/temperature-humidity-chart'
+              >
+                T/H Chart
               </a>
             </li>
             <li className='nav-item px-1'>
-              <a className='nav-link active' aria-current='page' href='#'>
+              <a
+                className='nav-link active'
+                style={{ fontSize: '2vmin' }}
+                aria-current='page'
+                href='/analytic'
+              >
                 Analytic
               </a>
             </li>

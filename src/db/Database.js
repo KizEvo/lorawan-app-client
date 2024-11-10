@@ -3,12 +3,12 @@ import { useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import {
   getFirestore,
-  doc,
   collection,
-  getDoc,
+  orderBy,
   getDocs,
-  where,
   query,
+  limit,
+  where,
 } from 'firebase/firestore'
 
 // Firebase configuration
@@ -23,12 +23,8 @@ const firebaseConfig = {
 }
 
 let firebaseDb
-let initialDoc = null
-// let sensorDataCache = []
 let coll
 let ignore = 0
-
-const firstId = 'collection-metadata'
 
 export const initDatabase = async () => {
   if (ignore >= 1) {
@@ -36,51 +32,43 @@ export const initDatabase = async () => {
     return
   }
   // Initialize Firebase
-  const firebaseApp = initializeApp(firebaseConfig)
-  firebaseDb = getFirestore(firebaseApp)
+  try {
+    const firebaseApp = initializeApp(firebaseConfig)
+    firebaseDb = getFirestore(firebaseApp)
+  } catch (error) {
+    console.log(
+      'Something went wrong while trying to init Firebase App, check environment files',
+      error
+    )
+  }
 
   // Get date
   const date = new Date()
   const dateString = date.toDateString().replaceAll(' ', '')
-  // Get document reference
 
   coll = 'sensorDataCollection' + dateString
-  const firstDocRef = doc(firebaseDb, coll, firstId)
-  try {
-    initialDoc = await getDoc(firstDocRef)
-  } catch (error) {
-    initialDoc = null
-  }
   ignore++
 }
 
-export const useFetchSensorData = () => {
+export const useFetchSensorData = (fport) => {
   const [sensorDataCache, setSensorDataCache] = useState([])
 
   const fetchSensorData = async () => {
-    if (initialDoc === null) {
-      // Haven't init db
-      return true
-    }
-    if (!initialDoc.exists()) {
-      // Data is not ready
-      return false
-    }
-    const firstDocRef = doc(firebaseDb, coll, firstId)
-    initialDoc = await getDoc(firstDocRef)
-    const data = initialDoc.data()
-    const tmpCache = []
     try {
-      console.log(data)
-      const inst = data.count - 3 < 0 ? 0 : data.count - 3
-      console.log(inst)
-      const q = query(collection(firebaseDb, coll), where('inst', '>=', inst))
-      const querySnapshot = await getDocs(q)
-      querySnapshot.forEach((doc) => {
-        tmpCache.push(doc.data())
-      })
-      setSensorDataCache(tmpCache)
+      const collRef = collection(firebaseDb, coll)
+      if (fport == 1) {
+        const queryCondition = query(
+          collRef,
+          where('fport', '==', fport),
+          orderBy('time_ms', 'desc'),
+          limit(3)
+        )
+        const querySnapshot = await getDocs(queryCondition)
+        const documents = querySnapshot.docs.map((doc) => doc.data())
+        setSensorDataCache(documents)
+      }
     } catch (error) {
+      setSensorDataCache([])
       return false
     }
     return true

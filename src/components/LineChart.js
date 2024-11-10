@@ -1,6 +1,6 @@
 import { useFetchSensorData } from '../db/Database'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -44,49 +44,20 @@ const getFormattedTimes = (minInterval, size, currTime) => {
 }
 
 const LineChart = (props) => {
-  // const [formattedTimes, setFormattedTimes] = useState(getFormattedTimes(1, 3))
-  const [sensorDataCache, fetchSensorData] = useFetchSensorData()
-  console.log(sensorDataCache)
   let currTime = Date.now()
-  if (sensorDataCache.length != 0) {
-    currTime = sensorDataCache[sensorDataCache.length - 1].time
+  if (
+    props.time_ms != 0 &&
+    props.time_ms != null &&
+    props.time_ms != undefined
+  ) {
+    currTime = props.time_ms
   }
+
   let formattedTimes = getFormattedTimes(1, 3, currTime)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchSensorData()
-    }, 1000 * 60)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  const sensorTempValue = []
-  const sensorHumidityValue = []
-  sensorDataCache.forEach((inst) => {
-    sensorTempValue.push(inst.temperature)
-    sensorHumidityValue.push(inst.humidity)
-  })
 
   const data = {
     labels: formattedTimes,
-    datasets: [
-      {
-        label: 'Temperature',
-        data: sensorTempValue,
-        backgroundColor: 'aqua',
-        borderColor: 'black',
-        pointBorderColor: 'aqua',
-        tension: 0.4,
-      },
-      {
-        label: 'Humidity',
-        data: sensorHumidityValue,
-        backgroundColor: 'aqua',
-        borderColor: 'black',
-        pointBorderColor: 'aqua',
-        tension: 0.4,
-      },
-    ],
+    datasets: props.datasets ? props.datasets : [],
   }
 
   const options = {
