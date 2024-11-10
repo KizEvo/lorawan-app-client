@@ -6,11 +6,24 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { useState, useEffect } from 'react'
 
 import Navbar from './components/Navbar'
-import Charts from './pages/Charts'
+import TempHumidityCharts from './pages/TempHumidityCharts'
+import Analytic from './pages/Analytic'
 import { initDatabase } from './db/Database'
 
 function App() {
   const [isDatabaseInitialized, setIsDatabaseInitialized] = useState(false)
+  let Component
+  switch (window.location.pathname) {
+    case '/':
+      Component = <div>Home</div>
+      break
+    case '/temperature-humidity-chart':
+      Component = <TempHumidityCharts />
+      break
+    case '/analytic':
+      Component = <Analytic />
+      break
+  }
 
   useEffect(() => {
     const initializeDatabase = async () => {
@@ -31,7 +44,7 @@ function App() {
         className='container-lg mx-0 px-0 align-self-center'
         style={{ height: '90vh' }}
       >
-        <Charts />
+        {Component}
       </div>
     </section>
   )
