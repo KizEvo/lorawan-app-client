@@ -1,6 +1,6 @@
 import { useFetchSensorData } from '../db/Database'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import LineChart from '../components/LineChart'
 
 let first = false
@@ -68,6 +68,7 @@ const TempHumidityCharts = () => {
               <li>
                 Mismatch timezone between Application server and Network server
               </li>
+              <li>No sensor data available yet</li>
             </ul>
           </div>
         )}

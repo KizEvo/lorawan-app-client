@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import TempHumidityCharts from './pages/TempHumidityCharts'
 import Analytic from './pages/Analytic'
+import Home from './pages/Home'
 import { initDatabase } from './db/Database'
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
   let Component
   switch (window.location.pathname) {
     case '/':
-      Component = <div>Home</div>
+      Component = <Home />
       break
     case '/temperature-humidity-chart':
       Component = <TempHumidityCharts />

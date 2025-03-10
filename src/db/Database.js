@@ -56,18 +56,20 @@ export const useFetchSensorData = (fport) => {
   const fetchSensorData = async () => {
     try {
       const collRef = collection(firebaseDb, coll)
-      if (fport == 1) {
+      if (fport === 1) {
         const queryCondition = query(
           collRef,
           where('fport', '==', fport),
           orderBy('time_ms', 'desc'),
           limit(3)
         )
+        console.log(query)
         const querySnapshot = await getDocs(queryCondition)
         const documents = querySnapshot.docs.map((doc) => doc.data())
         setSensorDataCache(documents)
       }
     } catch (error) {
+      console.log(error)
       setSensorDataCache([])
       return false
     }
