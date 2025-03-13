@@ -23,7 +23,7 @@ const firebaseConfig = {
 }
 
 let firebaseDb
-let coll
+
 let ignore = 0
 
 export const initDatabase = async () => {
@@ -42,35 +42,35 @@ export const initDatabase = async () => {
     )
   }
 
-  // Get date
-  const date = new Date()
-  const dateString = date.toDateString().replaceAll(' ', '')
-
-  coll = 'sensorDataCollection' + dateString
   ignore++
 }
 
-export const useFetchSensorData = (fport) => {
+export const useFetchSensorData = () => {
   const [sensorDataCache, setSensorDataCache] = useState([])
 
-  const fetchSensorData = async () => {
+  const fetchSensorData = async (fport) => {
     try {
+      // Get date
+      const date = new Date()
+      const dateString = date.toDateString().replaceAll(' ', '')
+      // Create collection
+      const coll = 'sensorDataCollection' + fport + dateString
       const collRef = collection(firebaseDb, coll)
       if (fport === 1) {
         const queryCondition = query(
           collRef,
-          where('fport', '==', fport),
           orderBy('time_ms', 'desc'),
           limit(3)
         )
-        console.log(query)
         const querySnapshot = await getDocs(queryCondition)
         const documents = querySnapshot.docs.map((doc) => doc.data())
         setSensorDataCache(documents)
+      } else {
+        throw new Error('fport not supported')
       }
     } catch (error) {
-      console.log(error)
       setSensorDataCache([])
+      console.log(error.message)
       return false
     }
     return true

@@ -7,11 +7,10 @@ import { useFetchSensorData } from '../db/Database'
 const Analytic = () => {
   const [sensorDataCache, fetchSensorData] = useFetchSensorData()
 
-  const sensorDevAddr = []
+  const sensorDevAddr = new Set()
 
   sensorDataCache.forEach((inst) => {
-    console.log(inst)
-    sensorDevAddr.push(inst.dev_addr)
+    sensorDevAddr.add(inst.dev_addr)
   })
 
   const handleOnClickEvent = (deviceAddress) => {
@@ -21,10 +20,10 @@ const Analytic = () => {
     }
     axios
       .post(
-        process.env.REACT_APP_FB_MEASUREMENT_ID,
+        process.env.REACT_APP_NETWORK_SERVER_DOWNLINK_URL,
         {
           devaddr: `${deviceAddress}`,
-          data: `dev_tog`,
+          data: 'dev_tog',
         },
         {
           headers: {
@@ -62,14 +61,14 @@ const Analytic = () => {
           <li className='py-2 small'>
             Status:
             <ul>
-              {sensorDevAddr.map((element) => {
+              {[...sensorDevAddr].map((element) => {
                 return (
-                  <li>
+                  <li key={element}>
                     <p>Sensor 1 Connected</p>
                     <button
                       type='button'
                       className='btn btn-primary btn-sm'
-                      onClick={(ev) => handleOnClickEvent(null)}
+                      onClick={(ev) => handleOnClickEvent(element)}
                     >
                       Toggle State
                     </button>
