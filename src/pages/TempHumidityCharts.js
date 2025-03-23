@@ -7,12 +7,20 @@ let first = false
 
 const TempHumidityCharts = () => {
   const [sensorDataCache, fetchSensorData] = useFetchSensorData()
+  const [sensorMetadataCache, fetchSensorMetadata] = useFetchSensorData()
 
+  const refreshTimeSec = 30
   const sensorTempValue = []
   const sensorHumidityValue = []
+  const sensorMetadata = []
+
   sensorDataCache.forEach((inst) => {
     sensorTempValue.push(inst.data[2] + inst.data[3] / 10)
     sensorHumidityValue.push(inst.data[0] + inst.data[1] / 10)
+  })
+
+  sensorMetadataCache.forEach((doc) => {
+    sensorMetadata.push(doc.id)
   })
 
   const dataset = [
@@ -37,11 +45,11 @@ const TempHumidityCharts = () => {
   ]
 
   useEffect(() => {
-    fetchSensorData(1)
+    fetchSensorData(1, false)
 
     const interval = setInterval(() => {
-      fetchSensorData(1)
-    }, 1000 * 60)
+      fetchSensorData(1, false)
+    }, 1000 * refreshTimeSec)
 
     return () => clearInterval(interval)
   }, [])

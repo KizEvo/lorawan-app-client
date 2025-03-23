@@ -48,25 +48,38 @@ export const initDatabase = async () => {
 export const useFetchSensorData = () => {
   const [sensorDataCache, setSensorDataCache] = useState([])
 
-  const fetchSensorData = async (fport) => {
+  const fetchSensorData = async (fport, devMetadata) => {
     try {
       // Get date
       const date = new Date()
       const dateString = date.toDateString().replaceAll(' ', '')
       // Create collection
-      const coll = 'sensorDataCollection' + fport + dateString
-      const collRef = collection(firebaseDb, coll)
-      if (fport === 1) {
-        const queryCondition = query(
-          collRef,
-          orderBy('time_ms', 'desc'),
-          limit(3)
-        )
-        const querySnapshot = await getDocs(queryCondition)
-        const documents = querySnapshot.docs.map((doc) => doc.data())
-        setSensorDataCache(documents)
+      let appendColl
+      if (devMetadata) {
+        appendColl = 'sensorMetadataCollection'
       } else {
-        throw new Error('fport not supported')
+        appendColl = 'sensorDataCollection' + fport
+      }
+      const coll = appendColl + dateString
+      const collRef = collection(firebaseDb, coll)
+      if (!devMetadata) {
+        if (fport === 1) {
+          const queryCondition = query(
+            collRef,
+            orderBy('time_ms', 'desc'),
+            limit(3)
+          )
+          const querySnapshot = await getDocs(queryCondition)
+          const documents = querySnapshot.docs.map((doc) => doc.data())
+          setSensorDataCache(documents)
+        } else {
+          throw new Error('fport not supported')
+        }
+      } else {
+        const deviceCollRef = collection(firebaseDb, coll)
+        const deviceQueryCondition = query(deviceCollRef)
+        const devMetadataSnap = await getDocs(deviceQueryCondition)
+        setSensorDataCache(devMetadataSnap)
       }
     } catch (error) {
       setSensorDataCache([])

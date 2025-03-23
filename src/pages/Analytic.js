@@ -6,11 +6,20 @@ import { useFetchSensorData } from '../db/Database'
 
 const Analytic = () => {
   const [sensorDataCache, fetchSensorData] = useFetchSensorData()
+  const [sensorMetadataCache, fetchSensorMetadata] = useFetchSensorData()
 
+  const refreshTimeSec = 30
   const sensorDevAddr = new Set()
+  const sensorMetadata = [[], []]
 
   sensorDataCache.forEach((inst) => {
     sensorDevAddr.add(inst.dev_addr)
+  })
+
+  sensorMetadataCache.forEach((doc) => {
+    const data = doc.data()
+    sensorMetadata[0].push(doc.id)
+    sensorMetadata[1].push(data.package_count)
   })
 
   const handleOnClickEvent = (deviceAddress) => {
@@ -42,11 +51,13 @@ const Analytic = () => {
   }
 
   useEffect(() => {
-    fetchSensorData(1)
+    fetchSensorData(1, false)
+    fetchSensorMetadata(1, true)
 
     const interval = setInterval(() => {
-      fetchSensorData(1)
-    }, 1000 * 60)
+      fetchSensorData(1, false)
+      fetchSensorMetadata(1, true)
+    }, 1000 * refreshTimeSec)
 
     return () => clearInterval(interval)
   }, [])
@@ -54,7 +65,10 @@ const Analytic = () => {
   return (
     <div className='d-flex flex-lg-row flex-column p-2 row'>
       <div className='col'>
-        <BarChart title='Sensors package counts chart' />
+        <BarChart
+          title='Sensors package counts chart'
+          sensors={sensorMetadata}
+        />
       </div>
       <div className='col'>
         <ul className='p-5 m-0 w-100 h-100 border'>
@@ -64,7 +78,7 @@ const Analytic = () => {
               {[...sensorDevAddr].map((element) => {
                 return (
                   <li key={element}>
-                    <p>Sensor 1 Connected</p>
+                    <p>Sensor {element} Connected</p>
                     <button
                       type='button'
                       className='btn btn-primary btn-sm'

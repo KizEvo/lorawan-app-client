@@ -23,7 +23,8 @@ ChartJS.register(
 
 const BarChart = (props) => {
   const data = {
-    labels: ['Sensor_1', 'Sensor_2', 'Sensor_3', 'Sensor_4', 'Sensor_5'],
+    // sensors device addr
+    labels: [...props.sensors[0]],
     datasets: [
       {
         label: 'Package count',
@@ -34,7 +35,7 @@ const BarChart = (props) => {
           '#e8c3b9',
           '#c45850',
         ],
-        data: [2478, 5267, 734, 784, 433],
+        data: [...props.sensors[1]],
       },
     ],
   }
@@ -49,6 +50,9 @@ const BarChart = (props) => {
       },
     },
   }
+
+  console.log(props.sensors)
+
   return <Bar className='w-100 h-100' data={data} options={options}></Bar>
 }
 
