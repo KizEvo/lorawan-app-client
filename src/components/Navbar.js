@@ -22,29 +22,9 @@ const Navbar = () => {
                 className='nav-link active'
                 style={{ fontSize: '2vmin' }}
                 aria-current='page'
-                href='/'
-              >
-                Home
-              </a>
-            </li>
-            <li className='nav-item px-1'>
-              <a
-                className='nav-link active'
-                style={{ fontSize: '2vmin' }}
-                aria-current='page'
                 href='/temperature-humidity-chart'
               >
                 T/H Chart
-              </a>
-            </li>
-            <li className='nav-item px-1'>
-              <a
-                className='nav-link active'
-                style={{ fontSize: '2vmin' }}
-                aria-current='page'
-                href='/analytic'
-              >
-                Analytic
               </a>
             </li>
           </ul>

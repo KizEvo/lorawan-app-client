@@ -16,13 +16,9 @@ function App() {
   let Component
   switch (window.location.pathname) {
     case '/':
-      Component = <Home />
-      break
     case '/temperature-humidity-chart':
+    default:
       Component = <TempHumidityCharts />
-      break
-    case '/analytic':
-      Component = <Analytic />
       break
   }
 
